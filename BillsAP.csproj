@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>BillsAP</AssemblyName>
+    <Product>Bills Must Be Paid Archipelago</Product>
+    <Version>0.0.1</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <RestoreAdditionalProjectSources>
+      https://api.nuget.org/v3/index.json;
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.samboy.dev/v3/index.json
+    </RestoreAdditionalProjectSources>
+    <RootNamespace>BillsAP</RootNamespace>
+    <GameInstallDir Condition="'$(GameInstallDir)' == ''">D:\Steam\steamapps\common\Bills Must Be Paid\BillsMustBePaid</GameInstallDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\Assembly-CSharp.dll</HintPath>
+    </Reference>
+
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Il2Cppmscorlib">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\Il2Cppmscorlib.dll</HintPath>
+    </Reference>
+
+    <Reference Include="Il2CppSystem">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\Il2CppSystem.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>
