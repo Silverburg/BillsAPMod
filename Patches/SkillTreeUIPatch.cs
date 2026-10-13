@@ -25,7 +25,7 @@ namespace BillsAP;
             
             foreach (SkillNodeConfig config in nodes)
             {
-                Plugin.Instance.Log.LogInfo($"ID: {config.nodeId} -- Name: {config.name} -- Position: {config.treePosition}");
+                Plugin.Instance.Log.LogInfo($"ID: {config.nodeId} -- Name: {config.name} -- Position: {config.treePosition} -- Costs: {config.levelCosts} -- MaxLevel: {config.maxLevel}");
                 GameObject UIobj = GameObject.Find("SkillTreeUI");
                 SkillTreeUI UI = UIobj.GetComponent<SkillTreeUI>();
 
