@@ -2,6 +2,7 @@
 using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
+using Il2CppInterop.Runtime.Injection;
 using UnityEngine;
 
 namespace BillsAP;
@@ -10,36 +11,46 @@ namespace BillsAP;
 [BepInProcess("Bills Must Be Paid.exe")]
 public class Plugin : BasePlugin
 {
-    public static ManualLogSource BepInLog;
-    // private static Plugin _instance;
-    // public static Plugin Instance => _instance;
+   public static ManualLogSource BepInLog;
+   // private static Plugin _instance;
+   // public static Plugin Instance => _instance;
+   
+   public const string ModDisplayInfo = $"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}";
+   public static ArchipelagoClient ArchipelagoClient;
 
-    public const string ModDisplayInfo = $"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}";
+   public override void Load()
+   {
+       // _instance = this;
+
+       // Plugin startup logic
+       BepInLog = Log;
+       BepInLog.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+
+       ArchipelagoClient = new ArchipelagoClient();
+       ArchipelagoConsole.Awake();
+       ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
+
+
+       ClassInjector.RegisterTypeInIl2Cpp<UIController>();
+
+       var uiObj = new GameObject("CustomUiObj");
+       GameObject.DontDestroyOnLoad(uiObj);
+       uiObj.AddComponent<UIController>();
+
+       var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
+       harmony.PatchAll();
+   }
+}
+
+public class UIController : MonoBehaviour
+{
+    
     private const string APDisplayInfo = $"Archipelago v{ArchipelagoClient.APVersion}";
-    public static ArchipelagoClient ArchipelagoClient;
-
-    public override void Load()
-    {
-        // _instance = this;
-
-        // Plugin startup logic
-        BepInLog = Log;
-        BepInLog.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-
-        ArchipelagoClient = new ArchipelagoClient();
-        ArchipelagoConsole.Awake();
-        ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
-
-        OnGUI();
-
-        var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
-        harmony.PatchAll();
-    }
-
+    
     private void OnGUI()
     {
         // show the mod is currently loaded in the corner
-        GUI.Label(new Rect(16, 16, 300, 20), ModDisplayInfo);
+        GUI.Label(new Rect(16, 16, 300, 20), Plugin.ModDisplayInfo);
         ArchipelagoConsole.OnGUI();
 
         string statusMessage;
@@ -74,7 +85,7 @@ public class Plugin : BasePlugin
             if (GUI.Button(new Rect(16, 130, 100, 20), "Connect") &&
                 !ArchipelagoClient.ServerData.SlotName.IsNullOrWhiteSpace())
             {
-                ArchipelagoClient.Connect();
+                Plugin.ArchipelagoClient.Connect();
             }
         }
         // this is a good place to create and add a bunch of debug buttons
