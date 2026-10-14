@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
 using HarmonyLib;
-using PiggyBankBuster.Config.Shop;
-using PiggyBankBuster.Persistence;
 using PiggyBankBuster.Progression;
-using UnityEngine;
 
 namespace BillsAP;
 
@@ -13,7 +8,7 @@ public static class IsHammerOwnedPatch
 {
     static void Postfix(ref bool __result, ref ShopManager __instance)
     {   
-        Plugin.Instance.Log.LogInfo($"Is hammer hammerId owned?  {__result}");
+        Plugin.BepInLog.LogInfo($"Is hammer hammerId owned?  {__result}");
         ShopSaveData saveData = __instance.GetSaveData();
         saveData.unlockedHammers.Clear();
         __instance.LoadSaveData(saveData);
@@ -33,6 +28,6 @@ public static class TryEquipHammerPatch
 {
     static void Postfix(ref bool __result)
     {
-        Plugin.Instance.Log.LogInfo($"Did we equip the hammer?  {__result}");
+        Plugin.BepInLog.LogInfo($"Did we equip the hammer?  {__result}");
     }
 }

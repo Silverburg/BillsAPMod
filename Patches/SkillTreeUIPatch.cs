@@ -1,11 +1,5 @@
-using System.Collections.Generic;
-using System.Data.Common;
 using HarmonyLib;
-using Il2CppInterop.Runtime;
-using Il2CppInterop.Runtime.InteropTypes.Arrays;
-using Il2CppSystem;
 using PiggyBankBuster.Config;
-using PiggyBankBuster.Config.Shop;
 using PiggyBankBuster.Progression;
 using PiggyBankBuster.UI;
 using UnityEngine;
@@ -20,12 +14,11 @@ namespace BillsAP;
         {
             GameObject obj = GameObject.Find("SkillTreeManager");
             SkillTreeManager manager = obj.GetComponent<SkillTreeManager>();
-            Il2CppReferenceArray<SkillNodeConfig> nodes = manager.GetAllNodes();
             int index = 0;
             
-            foreach (SkillNodeConfig config in nodes)
+            foreach (SkillNodeConfig config in manager.GetAllNodes())
             {
-                Plugin.Instance.Log.LogInfo($"ID: {config.nodeId} -- Name: {config.name} -- Position: {config.treePosition} -- Costs: {config.levelCosts} -- MaxLevel: {config.maxLevel}");
+                Plugin.BepInLog.LogInfo($"ID: {config.nodeId} -- Name: {config.name} -- Position: {config.treePosition} -- Costs: {config.levelCosts} -- MaxLevel: {config.maxLevel}");
                 GameObject UIobj = GameObject.Find("SkillTreeUI");
                 SkillTreeUI UI = UIobj.GetComponent<SkillTreeUI>();
 

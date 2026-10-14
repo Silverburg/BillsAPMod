@@ -9,7 +9,7 @@ namespace BillsAP;
     {
         static bool Prefix(string internalId, int amount)
         {   
-            Plugin.Instance.Log.LogInfo($"Attempting to add {amount} xp to {internalId}");
+            Plugin.BepInLog.LogInfo($"Attempting to add {amount} xp to {internalId}");
             return true;
         }
     }
@@ -19,7 +19,7 @@ namespace BillsAP;
     {
         static bool Prefix(Action<PiggyBankBuster.Config.PiggyTypeConfig, int> value)
         {
-            Plugin.Instance.Log.LogInfo($"Attempting to add {value}");
+            Plugin.BepInLog.LogInfo($"Attempting to add {value}");
             return false;    
         }
     }
