@@ -7,12 +7,13 @@ using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Packets;
 
+
 namespace BillsAP;
 
 public class ArchipelagoClient
 {
     public const string APVersion = "0.5.0";
-    private const string Game = "My Game";
+    private const string Game = "Bills Must Be Paid";
 
     public static bool Authenticated;
     private bool attemptingConnection;
@@ -47,7 +48,8 @@ public class ArchipelagoClient
     /// </summary>
     private void SetupSession()
     {
-        session.MessageLog.OnMessageReceived += message => ArchipelagoConsole.LogMessage(message.ToString());
+        // session.MessageLog.OnMessageReceived += message => ArchipelagoConsole.LogMessage(message.ToString());
+        session.MessageLog.OnMessageReceived += message => Plugin.BepInLog.LogInfo(message.ToString());
         session.Items.ItemReceived += OnItemReceived;
         session.Socket.ErrorReceived += OnSessionErrorReceived;
         session.Socket.SocketClosed += OnSessionSocketClosed;
@@ -98,7 +100,8 @@ public class ArchipelagoClient
             session.Locations.CompleteLocationChecksAsync(ServerData.CheckedLocations.ToArray());
             outText = $"Successfully connected to {ServerData.Uri} as {ServerData.SlotName}!";
 
-            ArchipelagoConsole.LogMessage(outText);
+            Plugin.BepInLog.LogInfo(outText);
+            // ArchipelagoConsole.LogMessage(outText);
         }
         else
         {
@@ -112,7 +115,8 @@ public class ArchipelagoClient
             Disconnect();
         }
 
-        ArchipelagoConsole.LogMessage(outText);
+        Plugin.BepInLog.LogInfo(outText);
+        // ArchipelagoConsole.LogMessage(outText);
         attemptingConnection = false;
     }
 
@@ -157,7 +161,8 @@ public class ArchipelagoClient
     private void OnSessionErrorReceived(Exception e, string message)
     {
         Plugin.BepInLog.LogError(e);
-        ArchipelagoConsole.LogMessage(message);
+        Plugin.BepInLog.LogInfo(message);
+        // ArchipelagoConsole.LogMessage(message);
     }
 
     /// <summary>

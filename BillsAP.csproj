@@ -17,14 +17,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" ExcludeAssets="Runtime" />
     <PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
     <PackageReference Include="Archipelago.MultiClient.Net" Version="6.7.1" />
     <PackageReference Include="Archipelago.MultiClient.Net.Analyzers" Version="2.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="UnityEngine.Modules" Version="6000.3.22" IncludeAssets="compile" />
+    <!-- <PackageReference Include="UnityEngine.Modules" Version="6000.3.22" IncludeAssets="compile" /> -->
   </ItemGroup>
 
   <ItemGroup>
@@ -32,9 +32,21 @@
       <HintPath>$(GameInstallDir)\BepInEx\interop\Assembly-CSharp.dll</HintPath>
     </Reference>
 
-    <Reference Include="UnityEngine.CoreModule">
+    <!-- <Reference Include="UnityEngine.CoreModule">
       <HintPath>$(GameInstallDir)\BepInEx\interop\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
+
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\UnityEngine.IMGUIModule.dll</HintPath>
+    </Reference>
+
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\UnityEngine.TextRenderingModule.dll</HintPath>
+    </Reference>
+
+    <Reference Include="UnityEngine.UnityEngine.ContentLoadModule">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\UnityEngine.UnityEngine.ContentLoadModule.dll</HintPath>
+    </Reference> -->
 
     <Reference Include="Il2Cppmscorlib">
       <HintPath>$(GameInstallDir)\BepInEx\interop\Il2Cppmscorlib.dll</HintPath>
@@ -43,5 +55,7 @@
     <Reference Include="Il2CppSystem">
       <HintPath>$(GameInstallDir)\BepInEx\interop\Il2CppSystem.dll</HintPath>
     </Reference>
+
+    <Reference Include="$(GameInstallDir)\BepInEx\interop\UnityEngine*Module.dll" />
   </ItemGroup>
 </Project>
