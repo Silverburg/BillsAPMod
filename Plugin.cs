@@ -3,6 +3,8 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using UnityEngine;
+using Archipelago.MultiClient.Net.Helpers;
+using System.Collections.ObjectModel;
 
 namespace BillsAP;
 
@@ -14,6 +16,7 @@ public class Plugin : BasePlugin
 
     public const string ModDisplayInfo = $"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}";
     public static ArchipelagoClient ArchipelagoClient;
+    public static GameObject ModObject;
 
     public override void Load()
     {
@@ -26,14 +29,20 @@ public class Plugin : BasePlugin
         // ArchipelagoConsole.Awake();
         // ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
 
+        // ModObject = new GameObject();
+        // GameObject.DontDestroyOnLoad(ModObject);
+        
         // BepInLog.LogInfo($"PreAddComponent");
-        // AddComponent<UIController>();
+        // ModObject.AddComponent<UIController>();
         // BepInLog.LogInfo($"PostAddComponent");
 
         var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         harmony.PatchAll();
 
+        ArchipelagoClient.TrySendLocations([1,3]);
+
         BepInLog.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
+
     }
 
     public void connectAP(string host, string port, string slot)

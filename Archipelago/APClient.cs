@@ -43,6 +43,13 @@ public class ArchipelagoClient
         TryConnect();
     }
 
+    public void TrySendLocations(long[] ids)
+    {
+        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+        session.Locations.CompleteLocationChecksAsync(ids);
+        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+    }
+
     /// <summary>
     /// add handlers for Archipelago events
     /// </summary>
@@ -68,7 +75,7 @@ public class ArchipelagoClient
                     session.TryConnectAndLogin(
                         Game,
                         ServerData.SlotName,
-                        ItemsHandlingFlags.NoItems, // TODO make sure to change this line
+                        ItemsHandlingFlags.AllItems, 
                         new Version(APVersion),
                         password: ServerData.Password,
                         requestSlotData: false // ServerData.NeedSlotData
