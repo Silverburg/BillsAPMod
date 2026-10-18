@@ -5,6 +5,7 @@ using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
+using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
 
 
@@ -43,11 +44,27 @@ public class ArchipelagoClient
         TryConnect();
     }
 
-    public void TrySendLocations(long[] ids)
+    public void TrySendLocationByName(string name)
+    {
+        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+        session.Locations.CompleteLocationChecksAsync(GetLocationIdByName(name));
+        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+    }
+
+    public void TrySendLocationsByIds(long[] ids)
     {
         Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
         session.Locations.CompleteLocationChecksAsync(ids);
         Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+    }
+
+    public int getRecievedItemAmount()
+    {
+        foreach (ItemInfo item in session.Items.AllItemsReceived)
+        {
+            Plugin.BepInLog.LogInfo($"{item.ItemDisplayName} -- {item.ItemGame} -- {item.ItemId} -- {item.ItemName}");
+        }
+        return 1;
     }
 
     /// <summary>
@@ -155,6 +172,7 @@ public class ArchipelagoClient
 
         ServerData.Index++;
 
+        Plugin.BepInLog.LogInfo($"Received {receivedItem} now do something with it!");
         // TODO reward the item here
         // if items can be received while in an invalid state for actually handling them, they can be placed in a local
         // queue/collection to be handled later
@@ -180,5 +198,15 @@ public class ArchipelagoClient
     {
         Plugin.BepInLog.LogError($"Connection to Archipelago lost: {reason}");
         Disconnect();
+    }
+
+    private int GetLocationIdByName(string name)
+    {
+        //Hard coding for now, but put in actual data.
+        switch (name)
+        {
+            case "Water Bill": return 17;
+            default: return 18;
+        }
     }
 }

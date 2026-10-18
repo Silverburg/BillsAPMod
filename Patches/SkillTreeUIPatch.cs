@@ -1,3 +1,4 @@
+using System.Linq;
 using HarmonyLib;
 using PiggyBankBuster.Config;
 using PiggyBankBuster.Progression;
@@ -18,7 +19,12 @@ namespace BillsAP;
             
             foreach (SkillNodeConfig config in manager.GetAllNodes())
             {
-                Plugin.BepInLog.LogInfo($"ID: {config.nodeId} -- Name: {config.name} -- Position: {config.treePosition} -- Costs: {config.levelCosts} -- MaxLevel: {config.maxLevel}");
+                // string costCount = "";
+                // foreach(int cost in config.levelCosts)
+                // {
+                //     costCount += " " + cost.ToString();
+                // }
+                // Plugin.BepInLog.LogInfo($"ID: {config.nodeId} -- Name: {config.displayName} -- Position: {config.treePosition} -- Costs: {costCount} -- MaxLevel: {config.maxLevel}");
                 GameObject UIobj = GameObject.Find("SkillTreeUI");
                 SkillTreeUI UI = UIobj.GetComponent<SkillTreeUI>();
 

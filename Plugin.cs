@@ -4,7 +4,8 @@ using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using UnityEngine;
 using Archipelago.MultiClient.Net.Helpers;
-using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Collections;
 
 namespace BillsAP;
 
@@ -17,12 +18,14 @@ public class Plugin : BasePlugin
     public const string ModDisplayInfo = $"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}";
     public static ArchipelagoClient ArchipelagoClient;
     public static GameObject ModObject;
+    public static int piggyCount;
 
     public override void Load()
     {
 
         // Plugin startup logic
         BepInLog = Log;
+        piggyCount = 0;
 
         ArchipelagoClient = new ArchipelagoClient();
         connectAP("localhost", "38281", "TestBill");
@@ -39,15 +42,12 @@ public class Plugin : BasePlugin
         var harmony = new Harmony(MyPluginInfo.PLUGIN_GUID);
         harmony.PatchAll();
 
-        ArchipelagoClient.TrySendLocations([1,3]);
-
         BepInLog.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
 
     }
 
     public void connectAP(string host, string port, string slot)
     {
-
         ArchipelagoClient.ServerData.Uri = host+":"+port;
         ArchipelagoClient.ServerData.SlotName = slot;
 
