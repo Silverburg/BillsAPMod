@@ -6,6 +6,7 @@ using UnityEngine;
 using Archipelago.MultiClient.Net.Helpers;
 using System.Reflection;
 using System.Collections;
+using System.Threading.Tasks;
 
 namespace BillsAP;
 
@@ -18,17 +19,15 @@ public class Plugin : BasePlugin
     public const string ModDisplayInfo = $"{MyPluginInfo.PLUGIN_NAME} v{MyPluginInfo.PLUGIN_VERSION}";
     public static ArchipelagoClient ArchipelagoClient;
     public static GameObject ModObject;
-    public static int piggyCount;
 
-    public override void Load()
+    public override async void Load()
     {
 
         // Plugin startup logic
         BepInLog = Log;
-        piggyCount = 0;
 
         ArchipelagoClient = new ArchipelagoClient();
-        connectAP("localhost", "38281", "TestBill");
+        await connectAP("localhost", "38281", "TestBill");
         // ArchipelagoConsole.Awake();
         // ArchipelagoConsole.LogMessage($"{ModDisplayInfo} loaded!");
 
@@ -46,7 +45,7 @@ public class Plugin : BasePlugin
 
     }
 
-    public void connectAP(string host, string port, string slot)
+    public async Task connectAP(string host, string port, string slot)
     {
         ArchipelagoClient.ServerData.Uri = host+":"+port;
         ArchipelagoClient.ServerData.SlotName = slot;

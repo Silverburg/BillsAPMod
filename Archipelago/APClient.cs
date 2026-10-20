@@ -1,12 +1,15 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
+using Il2CppSystem.Runtime.InteropServices;
+using UnityEngine.Windows.Speech;
 
 
 namespace BillsAP;
@@ -56,15 +59,6 @@ public class ArchipelagoClient
         Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
         session.Locations.CompleteLocationChecksAsync(ids);
         Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
-    }
-
-    public int getRecievedItemAmount()
-    {
-        foreach (ItemInfo item in session.Items.AllItemsReceived)
-        {
-            Plugin.BepInLog.LogInfo($"{item.ItemDisplayName} -- {item.ItemGame} -- {item.ItemId} -- {item.ItemName}");
-        }
-        return 1;
     }
 
     /// <summary>
@@ -166,16 +160,33 @@ public class ArchipelagoClient
     /// <param name="helper">item helper which we can grab our item from</param>
     private void OnItemReceived(ReceivedItemsHelper helper)
     {
-        var receivedItem = helper.DequeueItem();
+        ItemInfo receivedItem = helper.DequeueItem();
 
         if (helper.Index <= ServerData.Index) return;
 
         ServerData.Index++;
 
-        Plugin.BepInLog.LogInfo($"Received {receivedItem} now do something with it!");
+        Plugin.BepInLog.LogInfo($"----------");
+        Plugin.BepInLog.LogInfo($"Received {receivedItem.ItemDisplayName} now do something with it!");
+        Plugin.BepInLog.LogInfo($"{receivedItem.ItemGame} -- {receivedItem.ItemId} -- {receivedItem.ItemName} -- {receivedItem.LocationDisplayName} -- {receivedItem.LocationGame} -- {receivedItem.LocationId} -- {receivedItem.LocationName} -- {receivedItem.Player}");
+
+        if(receivedItem.ItemDisplayName == "Progressive Piggy")
+        {
+            ServerData.PiggyCount++;
+        }
+
+        CheckForGoal();
         // TODO reward the item here
         // if items can be received while in an invalid state for actually handling them, they can be placed in a local
         // queue/collection to be handled later
+    }
+
+    private void CheckForGoal()
+    {
+        if(ServerData.PiggyCount >= 3)
+        {
+            session.SetGoalAchieved();
+        }
     }
 
     /// <summary>

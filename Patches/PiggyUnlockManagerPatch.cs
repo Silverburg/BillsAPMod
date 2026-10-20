@@ -40,7 +40,7 @@ public static class CommitFillPatch1
         //     Plugin.BepInLog.LogInfo($"piggyType: {entry.piggyType.typeName} -- fillRequired: {entry.fillRequired}");
         // }
 
-        if (Plugin.ArchipelagoClient.getRecievedItemAmount() == __instance.UnlockedPiggyCount)
+        if (ArchipelagoClient.ServerData.PiggyCount == __instance.UnlockedPiggyCount)
         {
             Plugin.BepInLog.LogInfo(__instance.FillRequired);
             float amountLeft = __instance.FillRequired - __instance.CurrentFill;
@@ -50,7 +50,7 @@ public static class CommitFillPatch1
             }
             return true;
         }
-        else if(Plugin.ArchipelagoClient.getRecievedItemAmount() > __instance.UnlockedPiggyCount)
+        else if(ArchipelagoClient.ServerData.PiggyCount > __instance.UnlockedPiggyCount)
         {
             return true;
         }
@@ -59,10 +59,9 @@ public static class CommitFillPatch1
 
     static void Postfix(PiggyUnlockManager __instance)
     {
-        if(__instance.UnlockedPiggyCount > Plugin.piggyCount)
+        if(__instance.UnlockedPiggyCount > ArchipelagoClient.ServerData.PiggyCount)
         {
-            Plugin.piggyCount++;
-            Plugin.ArchipelagoClient.TrySendLocationsByIds([Plugin.piggyCount]);
+            Plugin.ArchipelagoClient.TrySendLocationsByIds([ArchipelagoClient.ServerData.PiggyCount]);
         }
     }
 }
