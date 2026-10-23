@@ -7,6 +7,8 @@ using Archipelago.MultiClient.Net.Helpers;
 using System.Reflection;
 using System.Collections;
 using System.Threading.Tasks;
+using PiggyBankBuster.Persistence;
+using PiggyBankBuster.Gameplay;
 
 namespace BillsAP;
 
@@ -42,7 +44,6 @@ public class Plugin : BasePlugin
         harmony.PatchAll();
 
         BepInLog.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
-
     }
 
     public async Task connectAP(string host, string port, string slot)
@@ -51,6 +52,14 @@ public class Plugin : BasePlugin
         ArchipelagoClient.ServerData.SlotName = slot;
 
         ArchipelagoClient.Connect();
+    }
+
+    public static void giveMoney(long money)
+    {
+        GameObject obj = GameObject.Find("MoneyManager");
+        MoneyManager manager = obj.GetComponent<MoneyManager>();
+
+        manager.AddMoneyNonRun(money);
     }
 }
 

@@ -8,6 +8,7 @@ using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
+using Il2CppSystem.Net;
 using Il2CppSystem.Runtime.InteropServices;
 using UnityEngine.Windows.Speech;
 
@@ -170,9 +171,13 @@ public class ArchipelagoClient
         Plugin.BepInLog.LogInfo($"Received {receivedItem.ItemDisplayName} now do something with it!");
         Plugin.BepInLog.LogInfo($"{receivedItem.ItemGame} -- {receivedItem.ItemId} -- {receivedItem.ItemName} -- {receivedItem.LocationDisplayName} -- {receivedItem.LocationGame} -- {receivedItem.LocationId} -- {receivedItem.LocationName} -- {receivedItem.Player}");
 
-        if(receivedItem.ItemDisplayName == "Progressive Piggy")
-        {
-            ServerData.PiggyCount++;
+        switch (receivedItem.ItemDisplayName){
+            case "Progressive Piggy":
+                ServerData.PiggyCount++;
+                return;
+            case "Progressive Hammer":
+                ServerData.HammerCount++;
+                return;
         }
 
         CheckForGoal();

@@ -59,10 +59,7 @@ public static class CommitFillPatch1
 
     static void Postfix(PiggyUnlockManager __instance)
     {
-        if(__instance.UnlockedPiggyCount > ArchipelagoClient.ServerData.PiggyCount)
-        {
-            Plugin.ArchipelagoClient.TrySendLocationsByIds([ArchipelagoClient.ServerData.PiggyCount]);
-        }
+        Plugin.ArchipelagoClient.TrySendLocationsByIds([__instance.UnlockedPiggyCount]);
     }
 }
 

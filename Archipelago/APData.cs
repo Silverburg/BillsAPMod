@@ -12,6 +12,7 @@ public class ArchipelagoData
 
     public List<long> CheckedLocations;
     public int PiggyCount = 0;
+    public int HammerCount = 1;
 
     /// <summary>
     /// seed for this archipelago data. Can be used when loading a file to verify the session the player is trying to
