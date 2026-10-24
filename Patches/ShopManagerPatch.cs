@@ -10,6 +10,7 @@ public static class IsHammerOwnedPatch
     static void Prefix(ref ShopManager __instance, HammerId hammerId)
     {   
         ShopSaveData saveData = __instance.GetSaveData();
+        saveData.unlockedHammers.Clear();
         
         Plugin.BepInLog.LogInfo($"Unlock check {hammerId}");
         if(ArchipelagoClient.ServerData.HammerCount+1 >= (int)hammerId){
@@ -25,7 +26,7 @@ public static class IsHammerOwnedPatch
         }
         __instance.LoadSaveData(saveData);
 
-        Plugin.giveMoney(10000000000);
+        Plugin.giveMoney(1000);
     }
 }
 
