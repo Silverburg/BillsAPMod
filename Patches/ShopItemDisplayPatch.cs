@@ -13,6 +13,6 @@ public static class GetCostPatch
 {
     static void Postfix(ref int __result)
     {   
-        Plugin.BepInLog.LogInfo($"Cost is {__result}");
+        //Plugin.BepInLog.LogInfo($"Cost is {__result}");
     }
 }

@@ -9,17 +9,7 @@ namespace BillsAP;
     {
         static bool Prefix(string internalId, int amount)
         {   
-            Plugin.BepInLog.LogInfo($"Attempting to add {amount} xp to {internalId}");
+            //Plugin.BepInLog.LogInfo($"Attempting to add {amount} xp to {internalId}");
             return true;
-        }
-    }
-
-[HarmonyPatch(typeof(PiggyLevelManager), nameof(PiggyLevelManager.add_OnPiggyXPGained))]
-    public static class add_OnPiggyXPGainedPatch
-    {
-        static bool Prefix(Action<PiggyBankBuster.Config.PiggyTypeConfig, int> value)
-        {
-            Plugin.BepInLog.LogInfo($"Attempting to add {value}");
-            return false;    
         }
     }

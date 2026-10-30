@@ -56,6 +56,10 @@
       <HintPath>$(GameInstallDir)\BepInEx\interop\Il2CppSystem.dll</HintPath>
     </Reference>
 
+    <Reference Include="Il2CppSystem.Core">
+      <HintPath>$(GameInstallDir)\BepInEx\interop\Il2CppSystem.Core.dll</HintPath>
+    </Reference>
+
     <Reference Include="$(GameInstallDir)\BepInEx\interop\UnityEngine*Module.dll" />
   </ItemGroup>
 </Project>
