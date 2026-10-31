@@ -1,4 +1,3 @@
-using System.Linq;
 using HarmonyLib;
 using PiggyBankBuster.Config;
 using PiggyBankBuster.Progression;

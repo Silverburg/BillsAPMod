@@ -3,11 +3,7 @@ using BepInEx.Logging;
 using BepInEx.Unity.IL2CPP;
 using HarmonyLib;
 using UnityEngine;
-using Archipelago.MultiClient.Net.Helpers;
-using System.Reflection;
-using System.Collections;
 using System.Threading.Tasks;
-using PiggyBankBuster.Persistence;
 using PiggyBankBuster.Gameplay;
 
 namespace BillsAP;

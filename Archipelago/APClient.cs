@@ -1,17 +1,12 @@
 using System;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Archipelago.MultiClient.Net;
 using Archipelago.MultiClient.Net.BounceFeatures.DeathLink;
 using Archipelago.MultiClient.Net.Enums;
 using Archipelago.MultiClient.Net.Helpers;
 using Archipelago.MultiClient.Net.Models;
 using Archipelago.MultiClient.Net.Packets;
-using Il2CppSystem.Net;
-using Il2CppSystem.Runtime.InteropServices;
-using UnityEngine.Windows.Speech;
-
 
 namespace BillsAP;
 
@@ -50,16 +45,22 @@ public class ArchipelagoClient
 
     public void TrySendLocationByName(string name)
     {
-        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
-        session.Locations.CompleteLocationChecksAsync(GetLocationIdByName(name));
-        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+        //Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+        session.Locations.CompleteLocationChecks(GetLocationIdByName(name));
+        //Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
     }
 
     public void TrySendLocationsByIds(long[] ids)
     {
-        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
-        session.Locations.CompleteLocationChecksAsync(ids);
-        Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+        //Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+        Plugin.BepInLog.LogInfo($"Attempting to unlock location ids: {ids[0]}");
+        session.Locations.CompleteLocationChecks(ids);
+        //Plugin.BepInLog.LogInfo(session.Locations.AllLocationsChecked.ToString());
+    }
+
+    public bool HasLocationBeenChecked(long id)
+    {
+        return session.Locations.AllLocationsChecked.Contains(id);
     }
 
     /// <summary>
@@ -173,10 +174,10 @@ public class ArchipelagoClient
 
         switch (receivedItem.ItemDisplayName){
             case "Progressive Piggy":
-                ServerData.PiggyCount++;
+                PiggyUnlockUpdates.piggyCount++;
                 return;
             case "Progressive Hammer":
-                ServerData.HammerCount++;
+                ShopManagerUpdates.hammerCount++;
                 return;
         }
 
@@ -188,7 +189,7 @@ public class ArchipelagoClient
 
     private void CheckForGoal()
     {
-        if(ServerData.PiggyCount >= 3)
+        if(PiggyUnlockUpdates.piggyCount >= 3)
         {
             session.SetGoalAchieved();
         }

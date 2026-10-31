@@ -1,8 +1,5 @@
 using HarmonyLib;
-using PiggyBankBuster.Config;
 using PiggyBankBuster.Economy;
-using PiggyBankBuster.UI;
-using UnityEngine;
 
 namespace BillsAP;
 

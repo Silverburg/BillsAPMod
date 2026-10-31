@@ -1,9 +1,6 @@
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Reflection;
 using HarmonyLib;
 using PiggyBankBuster.Progression;
-using UnityEngine.Pool;
 
 namespace BillsAP;
 
@@ -40,7 +37,7 @@ public static class CommitFillPatch1
         //     Plugin.BepInLog.LogInfo($"piggyType: {entry.piggyType.typeName} -- fillRequired: {entry.fillRequired}");
         // }
 
-        if (ArchipelagoClient.ServerData.PiggyCount == __instance.UnlockedPiggyCount)
+        if (PiggyUnlockUpdates.piggyCount == __instance.UnlockedPiggyCount)
         {
             Plugin.BepInLog.LogInfo(__instance.FillRequired);
             float amountLeft = __instance.FillRequired - __instance.CurrentFill;
@@ -50,7 +47,7 @@ public static class CommitFillPatch1
             }
             return true;
         }
-        else if(ArchipelagoClient.ServerData.PiggyCount > __instance.UnlockedPiggyCount)
+        else if(PiggyUnlockUpdates.piggyCount > __instance.UnlockedPiggyCount)
         {
             return true;
         }
@@ -71,4 +68,10 @@ public static class CommitRunFillPatch
         Plugin.BepInLog.LogInfo($"CommitRunFill {coinsEarned} {killsByType}");
         return false;
     }
+}
+
+public static class PiggyUnlockUpdates
+{
+    public static int piggyCount = 0;
+
 }
